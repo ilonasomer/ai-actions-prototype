@@ -4,7 +4,7 @@
 <style>
 body{margin:0;background:#F7F7F7;font-family:Helvetica,Arial,sans-serif;color:#162d3d}
 .pg{max-width:720px;margin:0 auto;padding:32px 20px 100px;position:relative}
-h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{font-size:14px;color:#5b6d7e;margin:0 0 20px}
+h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{font-size:14px;color:#5b6d7e;margin:0 0 20px}.lead span{display:block;margin-top:4px}
 .tabs{display:flex;gap:24px;border-bottom:1px solid #dfe5eb;margin-bottom:16px}
 .tab{padding:10px 0;font-size:14px;color:#5b6d7e;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab.sel{color:#116dff;font-weight:600;border-bottom-color:#116dff}
@@ -31,7 +31,7 @@ h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{font-size:14px;color:#5b6
 #toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #toast button{background:none;border:none;color:#9cc2ff;font-size:14px;cursor:pointer;padding:0}
 </style></head><body>
-<div class="pg"><h1>AI actions</h1><p class="lead">Choose what your AI can do for visitors on Site Chat and your other channels. <a href="#" style="color:#116dff;text-decoration:none" onclick="return false">Learn more</a></p>
+<div class="pg"><h1>AI actions</h1><p class="lead">Choose what your AI can do for visitors on Site Chat and your other channels. <a href="#" style="color:#116dff;text-decoration:none" onclick="return false">Learn more</a><span>Site Chat is your main channel. Other channels follow it unless you change them.</span></p>
 <div class="tabs" id="tb"></div><div id="bn"></div><div id="a"></div>
 <div id="toast"><span id="tx"></span><button id="ub" onclick="UN()">Undo</button></div></div>
 <script>
@@ -45,7 +45,7 @@ function toastMsg(m,u){tx.textContent=m;ub.style.display=u?"":"none";toast.class
 const diff=c=>S[c].flat().filter((v,i)=>v!=S[0].flat()[i]).length;
 function R(){
 tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}</div>`).join("");
-bn.innerHTML=cur==0?`<div class=ban><span>Want the same choices everywhere?</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`:
+bn.innerHTML=cur==0?`<div class=ban><span>Copy these choices to your other connected channels.</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`:
 (diff(cur)?`<div class=ban><span>${diff(cur)} action${diff(cur)>1?"s":""} differ from Site Chat</span><button class="btn sm" onclick="RS()">Reset to match Site Chat</button></div>`:"");
 a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
 let head;
