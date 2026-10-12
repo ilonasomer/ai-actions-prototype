@@ -44,7 +44,7 @@ let undoable=false;
 function toastMsg(m,u){tx.textContent=m;ub.style.display=u?"":"none";toast.classList.add("show");clearTimeout(tm);tm=setTimeout(()=>toast.classList.remove("show"),5000)}
 const diff=c=>S[c].flat().filter((v,i)=>v!=S[0].flat()[i]).length;
 function R(){
-tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}${i&&diff(i)?'<span class=d></span>':''}</div>`).join("");
+tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}</div>`).join("");
 bn.innerHTML=cur==0?`<div class=ban><span>Want the same choices everywhere?</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`:
 (diff(cur)?`<div class=ban><span>${diff(cur)} action${diff(cur)>1?"s":""} differ from Site Chat</span><button class="btn sm" onclick="RS()">Reset to match Site Chat</button></div>`:"");
 a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
