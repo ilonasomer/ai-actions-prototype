@@ -45,8 +45,8 @@ function toastMsg(m,u){tx.textContent=m;ub.style.display=u?"":"none";toast.class
 const diff=c=>S[c].flat().filter((v,i)=>v!=S[0].flat()[i]).length;
 function R(){
 tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}</div>`).join("");
-bn.innerHTML=cur==0?`<div class=ban><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M13,15 L13,10 L11,10 L10,12 L11,12 L11,15 L10,16 L10,17 L14,17 L14,16 L13,15 Z M11,9 L13,9 L13,7 L11,7 L11,9 Z M12,20 C7.589,20 4,16.411 4,12 C4,7.589 7.589,4 12,4 C16.411,4 20,7.589 20,12 C20,16.411 16.411,20 12,20 L12,20 Z M12,3 C7.029,3 3,7.029 3,12 C3,16.971 7.029,21 12,21 C16.971,21 21,16.971 21,12 C21,7.029 16.971,3 12,3 L12,3 Z"></path></svg><span>Want the same choices everywhere?</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`:
-(diff(cur)?`<div class=ban><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M13,15 L13,10 L11,10 L10,12 L11,12 L11,15 L10,16 L10,17 L14,17 L14,16 L13,15 Z M11,9 L13,9 L13,7 L11,7 L11,9 Z M12,20 C7.589,20 4,16.411 4,12 C4,7.589 7.589,4 12,4 C16.411,4 20,7.589 20,12 C20,16.411 16.411,20 12,20 L12,20 Z M12,3 C7.029,3 3,7.029 3,12 C3,16.971 7.029,21 12,21 C16.971,21 21,16.971 21,12 C21,7.029 16.971,3 12,3 L12,3 Z"></path></svg><span>${diff(cur)} action${diff(cur)>1?"s":""} differ from Site Chat</span><button class="btn sm" onclick="RS()">Reset to match Site Chat</button></div>`:"");
+bn.innerHTML=cur==0?`<div class=ban><span>Want the same choices everywhere?</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`:
+(diff(cur)?`<div class=ban><span>${diff(cur)} action${diff(cur)>1?"s":""} differ from Site Chat</span><button class="btn sm" onclick="RS()">Reset to match Site Chat</button></div>`:"");
 a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
 let head;
 if(st==3)head=`<div><div class=t>${g[0]}</div><div class=s>${all?"All on":n==0?"All off":n+" of "+m+" on"}</div></div><button class=tb onclick="T(${i})">${all?"Turn all off":"Turn all on"}</button>`;
