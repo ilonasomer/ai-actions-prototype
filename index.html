@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI actions - prototype</title>
+<style>
+body{margin:0;background:#F7F7F7;font-family:Helvetica,Arial,sans-serif;color:#162d3d}
+.pg{max-width:720px;margin:0 auto;padding:32px 20px 100px;position:relative}
+h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{font-size:14px;color:#5b6d7e;margin:0 0 20px}
+.tabs{display:flex;gap:24px;border-bottom:1px solid #dfe5eb;margin-bottom:16px}
+.tab{padding:10px 0;font-size:14px;color:#5b6d7e;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.sel{color:#116dff;font-weight:600;border-bottom-color:#116dff}
+.ban{display:flex;align-items:center;gap:12px;background:#eaf2ff;border-left:3px solid #116dff;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:14px}
+.ban .tb{margin-left:auto}
+.btn{background:#fff;border:1px solid #116dff;color:#116dff;border-radius:18px;padding:6px 16px;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn.p{background:#116dff;color:#fff}
+.sub{font-size:13px;color:#5b6d7e;margin-bottom:16px;display:flex;gap:8px;align-items:center}
+.g{border-radius:12px;margin-bottom:12px;background:#fff}
+.h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eef1f4}
+.t{font-weight:600;font-size:15px}.s{font-size:13px;color:#5b6d7e;margin-top:2px}
+.r{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:14px}
+.r+.r{border-top:1px solid #eef1f4}.r.dim{opacity:.45}
+.tb{background:none;border:none;color:#116dff;font-size:14px;cursor:pointer;padding:4px 0;font-family:inherit}
+.tb:hover{text-decoration:underline}
+.sw{width:34px;height:20px;border-radius:10px;background:#c1c7d0;position:relative;cursor:pointer;flex:none}
+.sw.on{background:#116dff}.sw i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+.sw.on i{left:16px}
+.d{width:6px;height:6px;border-radius:50%;background:#e8a317;display:inline-block;margin-left:6px}
+.ask{background:#f0f4f8;border-radius:8px;margin:0 16px 12px;padding:12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sp{width:14px;height:14px;border:2px solid #c1c7d0;border-top-color:#116dff;border-radius:50%;display:inline-block;animation:r .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes r{to{transform:rotate(360deg)}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.25s;background:#162d3d;color:#fff;border-radius:8px;padding:12px 16px;font-size:14px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap}
+#toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#toast button{background:none;border:none;color:#9cc2ff;font-size:14px;cursor:pointer;padding:0}
+</style></head><body>
+<div class="pg"><h1>AI actions</h1><p class="lead">Choose what your AI can do for visitors on each channel. <a href="#" style="color:#116dff;text-decoration:none" onclick="return false">Learn more</a></p>
+<div class="tabs" id="tb"></div><div id="bn"></div><div id="a"></div>
+<div id="toast"><span id="tx"></span><button id="ub" onclick="UN()">Undo</button></div></div>
+<script>
+const G=[["Bookings","Wix Bookings",["Check availability","Book a session","Cancel booking"]],["Cart","Wix Stores",["Add to cart","Remove from cart","Apply coupon","Check stock"]],["Events","Wix Events",["Answer event questions","Register a guest","Cancel registration"]]];
+const C=["Site Chat","WhatsApp","Instagram"];
+let cur=0,tm,prev;const I={"Wix Bookings":3,"Wix Stores":3,"Wix Events":0};
+const cp=x=>JSON.parse(JSON.stringify(x));
+const S=[[[1,0,1],[1,1,1,0],[0,0,0]],[[1,0,1],[1,1,1,0],[0,0,0]],[[1,0,0],[1,0,1,0],[0,0,0]]];
+let undoable=false;
+function toastMsg(m,u){tx.textContent=m;ub.style.display=u?"":"none";toast.classList.add("show");clearTimeout(tm);tm=setTimeout(()=>toast.classList.remove("show"),5000)}
+const diff=c=>S[c].flat().filter((v,i)=>v!=S[0].flat()[i]).length;
+function R(){
+tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}${i&&diff(i)?'<span class=d></span>':''}</div>`).join("");
+bn.innerHTML=cur==0?`<div class=ban><span>Want the same choices everywhere?</span><button class=tb onclick="AP()">Apply to all channels</button></div>`:
+(diff(cur)?`<div class=ban><span>${diff(cur)} action${diff(cur)>1?"s":""} differ from Site Chat</span><button class=tb onclick="RS()">Reset to match Site Chat</button></div>`:"");
+a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
+let head;
+if(st==3)head=`<div><div class=t>${g[0]}</div><div class=s>${all?"All on":n==0?"All off":n+" of "+m+" on"}</div></div><button class=tb onclick="T(${i})">${all?"Turn all off":"Turn all on"}</button>`;
+else if(st==2)head=`<div><div class=t>${g[0]}</div><div class=s><span class=sp></span>Installing ${g[1]}…</div></div><div class="sw on"><i></i></div>`;
+else head=`<div><div class=t>${g[0]}</div><div class=s>Not installed. Turn on to install ${g[1]}</div></div><div class=sw onclick="IN('${g[1]}')"><i></i></div>`;
+const ask="";
+return `<div class=g><div class=h>${head}</div>${ask}`+g[2].map((r,j)=>`<div class="r ${st==3?"":"dim"}"><span>${r}</span>${st==3?`<div class="sw ${v[j]?"on":""}" onclick="X(${i},${j})"><i></i></div>`:""}</div>`).join("")+`</div>`}).join("")}
+function IN(app){I[app]=2;R();setTimeout(()=>{I[app]=3;G.forEach((g,i)=>{if(g[1]==app)S.forEach(ch=>{ch[i]=ch[i].map(()=>1)})});R();toastMsg(app+" installed. AI actions are on.",false)},1500)}
+function T(i){const v=S[cur][i],all=v.every(x=>x);S[cur][i]=v.map(()=>all?0:1);R()}
+function X(i,j){S[cur][i][j]^=1;R()}
+function AP(){prev=[cp(S[1]),cp(S[2])];S[1]=cp(S[0]);S[2]=cp(S[0]);R();toastMsg("Copied to WhatsApp and Instagram. Save to apply.",true)}
+function UN(){S[1]=prev[0];S[2]=prev[1];toast.classList.remove("show");R()}
+function RS(){S[cur]=cp(S[0]);R()}
+R()
+</script></body></html>
