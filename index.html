@@ -57,7 +57,7 @@ return `<div class=g><div class=h>${head}</div>${ask}`+g[2].map((r,j)=>`<div cla
 function IN(app){I[app]=2;R();setTimeout(()=>{I[app]=3;G.forEach((g,i)=>{if(g[1]==app)S.forEach(ch=>{ch[i]=ch[i].map(()=>1)})});R();toastMsg(app+" installed. AI actions are on.",false)},1500)}
 function T(i){const v=S[cur][i],all=v.every(x=>x);S[cur][i]=v.map(()=>all?0:1);R()}
 function X(i,j){S[cur][i][j]^=1;R()}
-function AP(){prev=[cp(S[1]),cp(S[2])];S[1]=cp(S[0]);S[2]=cp(S[0]);R();toastMsg("Copied to WhatsApp and Instagram. Save to apply.",true)}
+function AP(){prev=[cp(S[1]),cp(S[2])];S[1]=cp(S[0]);S[2]=cp(S[0]);R();toastMsg("Copied to your other channels. Save to apply.",true)}
 function UN(){S[1]=prev[0];S[2]=prev[1];toast.classList.remove("show");R()}
 function RS(){S[cur]=cp(S[0]);R()}
 R()
