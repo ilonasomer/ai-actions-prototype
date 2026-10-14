@@ -11,7 +11,7 @@ h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{font-size:14px;color:#5b6
 .ban{display:flex;align-items:center;gap:9px;background:#E7F0FF;border:1px solid #A8CAFF;border-radius:6px;padding:9px 12px;margin-bottom:16px;font-size:14px;color:#000624}.ban svg{flex:none;color:#000624}
 .ban .tb,.ban .btn{margin-left:auto}
 .btn{background:#fff;border:1px solid #116dff;color:#116dff;border-radius:18px;padding:6px 16px;font-size:14px;cursor:pointer;white-space:nowrap}
-.btn.sm{padding:3px 12px;height:24px;font-size:12px;box-sizing:border-box;font-weight:500;background:transparent;border:1px solid #868AA5;color:#000624;border-radius:15px}.btn.p{background:#116dff;color:#fff}.btn.sm.p{font-size:14px;background:#116dff;border-color:#116dff;color:#fff}
+.btn.sm{padding:3px 12px;height:24px;font-size:12px;box-sizing:border-box;font-weight:500;background:transparent;border:1px solid #868AA5;color:#000624;border-radius:15px}.btn.p{background:#116dff;color:#fff}.btn.sm.sec{font-size:14px}.btn.sm.p{font-size:14px;background:#116dff;border-color:#116dff;color:#fff}
 .sub{font-size:13px;color:#5b6d7e;margin-bottom:16px;display:flex;gap:8px;align-items:center}
 .g{border-radius:12px;margin-bottom:12px;background:#fff}
 .h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eef1f4}
@@ -51,7 +51,7 @@ a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,
 let head;
 if(st==3)head=`<div><div class=t>${g[0]}</div><div class=s>${all?"All on":n==0?"All off":n+" of "+m+" on"}</div></div><button class=tb onclick="T(${i})">${all?"Turn all off":"Turn all on"}</button>`;
 else if(st==2)head=`<div><div class=t>${g[0]}</div><div class=s><span class=sp></span>Installing ${g[1]}…</div></div>`;
-else head=`<div><div class=t>${g[0]}</div><div class=s>Requires ${g[1]}</div></div><button class="btn sm p" onclick="IN('${g[1]}')">Install</button>`;
+else head=`<div><div class=t>${g[0]}</div><div class=s>Requires ${g[1]}</div></div><button class="btn sm sec" onclick="IN('${g[1]}')">Install</button>`;
 const ask="";
 return `<div class=g><div class=h>${head}</div>${ask}`+g[2].map((r,j)=>`<div class="r ${st==3?"":"dim"}"><span>${r}</span>${st==3?`<div class="sw ${v[j]?"on":""}" onclick="X(${i},${j})"><i></i></div>`:""}</div>`).join("")+`</div>`}).join("")}
 function IN(app){I[app]=2;R();setTimeout(()=>{I[app]=3;G.forEach((g,i)=>{if(g[1]==app)S.forEach(ch=>{ch[i]=ch[i].map(()=>1)})});R();toastMsg(app+" installed. AI actions are on.",false)},1500)}
