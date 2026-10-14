@@ -45,7 +45,7 @@ function toastMsg(m,u){tx.textContent=m;ub.style.display=u?"":"none";toast.class
 const diff=c=>S[c].flat().filter((v,i)=>v!=S[0].flat()[i]).length;
 function R(){
 tb.innerHTML=C.map((c,i)=>`<div class="tab ${i==cur?"sel":""}" onclick="cur=${i};R()">${c}</div>`).join("");
-bn.innerHTML=`<div class=ban><span>Copy these choices to your other connected channels.</span><button class="btn sm" onclick="AP()">Apply to all channels</button></div>`;
+bn.innerHTML=`<div class=ban><span>Use these choices on Site Chat and all your connected channels.</span><button class="btn sm" onclick="AP()">Apply to all</button></div>`;
 a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
 let head;
 if(st==3)head=`<div><div class=t>${g[0]}</div><div class=s>${all?"All on":n==0?"All off":n+" of "+m+" on"}</div></div><button class=tb onclick="T(${i})">${all?"Turn all off":"Turn all on"}</button>`;
@@ -56,7 +56,7 @@ return `<div class=g><div class=h>${head}</div>${ask}`+g[2].map((r,j)=>`<div cla
 function IN(app){I[app]=2;R();setTimeout(()=>{I[app]=3;G.forEach((g,i)=>{if(g[1]==app)S.forEach(ch=>{ch[i]=ch[i].map(()=>1)})});R();toastMsg(app+" installed. AI actions are on.",false)},1500)}
 function T(i){const v=S[cur][i],all=v.every(x=>x);S[cur][i]=v.map(()=>all?0:1);R()}
 function X(i,j){S[cur][i][j]^=1;R()}
-function AP(){prev=S.map(cp);S.forEach((_,k)=>{if(k!=cur)S[k]=cp(S[cur])});R();toastMsg("Copied to your other channels. Save to apply.",true)}
+function AP(){prev=S.map(cp);S.forEach((_,k)=>{if(k!=cur)S[k]=cp(S[cur])});R();toastMsg("Applied to Site Chat and your other channels. Save to confirm.",true)}
 function UN(){prev.forEach((v,k)=>{S[k]=v});toast.classList.remove("show");R()}
 function RS(){S[cur]=cp(S[0]);R()}
 R()
