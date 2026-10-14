@@ -50,8 +50,8 @@ bn.innerHTML=cur==0?`<div class=ban><span>Copy these choices to your other conne
 a.innerHTML=G.map((g,i)=>{const v=S[cur][i],n=v.reduce((x,y)=>x+y,0),m=v.length,all=n==m,st=I[g[1]];
 let head;
 if(st==3)head=`<div><div class=t>${g[0]}</div><div class=s>${all?"All on":n==0?"All off":n+" of "+m+" on"}</div></div><button class=tb onclick="T(${i})">${all?"Turn all off":"Turn all on"}</button>`;
-else if(st==2)head=`<div><div class=t>${g[0]}</div><div class=s><span class=sp></span>Installing ${g[1]}…</div></div><div class="sw on"><i></i></div>`;
-else head=`<div><div class=t>${g[0]}</div><div class=s>Not installed. Turn on to install ${g[1]}</div></div><div class=sw onclick="IN('${g[1]}')"><i></i></div>`;
+else if(st==2)head=`<div><div class=t>${g[0]}</div><div class=s><span class=sp></span>Installing ${g[1]}…</div></div>`;
+else head=`<div><div class=t>${g[0]}</div><div class=s>Requires ${g[1]}</div></div><button class="btn sm" onclick="IN('${g[1]}')">Install</button>`;
 const ask="";
 return `<div class=g><div class=h>${head}</div>${ask}`+g[2].map((r,j)=>`<div class="r ${st==3?"":"dim"}"><span>${r}</span>${st==3?`<div class="sw ${v[j]?"on":""}" onclick="X(${i},${j})"><i></i></div>`:""}</div>`).join("")+`</div>`}).join("")}
 function IN(app){I[app]=2;R();setTimeout(()=>{I[app]=3;G.forEach((g,i)=>{if(g[1]==app)S.forEach(ch=>{ch[i]=ch[i].map(()=>1)})});R();toastMsg(app+" installed. AI actions are on.",false)},1500)}
